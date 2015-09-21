@@ -31,6 +31,7 @@
 #include <SFML/Graphics/Export.hpp>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Glsl.hpp>
 #include <SFML/Window/GlResource.hpp>
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -63,10 +64,10 @@ public:
     };
 
     ////////////////////////////////////////////////////////////
-    /// \brief Special type that can be passed to setParameter,
+    /// \brief Special type that can be passed to setUniformSampler2D(),
     ///        and that represents the texture of the object being drawn
     ///
-    /// \see setParameter(const std::string&, CurrentTextureType)
+    /// \see setUniformSampler2D(const std::string&, CurrentTextureType)
     ///
     ////////////////////////////////////////////////////////////
     struct CurrentTextureType {};
@@ -74,7 +75,7 @@ public:
     ////////////////////////////////////////////////////////////
     /// \brief Represents the texture of the object being drawn
     ///
-    /// \see setParameter(const std::string&, CurrentTextureType)
+    /// \see setUniformSampler2D(const std::string&, CurrentTextureType)
     ///
     ////////////////////////////////////////////////////////////
     static CurrentTextureType CurrentTexture;
@@ -220,148 +221,48 @@ public:
     bool loadFromStream(InputStream& vertexShaderStream, InputStream& fragmentShaderStream);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Change a float parameter of the shader
+    /// \brief Specify value for float uniform
     ///
-    /// \a name is the name of the variable to change in the shader.
-    /// The corresponding parameter in the shader must be a float
-    /// (float GLSL type).
-    ///
-    /// Example:
-    /// \code
-    /// uniform float myparam; // this is the variable in the shader
-    /// \endcode
-    /// \code
-    /// shader.setParameter("myparam", 5.2f);
-    /// \endcode
-    ///
-    /// \param name Name of the parameter in the shader
-    /// \param x    Value to assign
+    /// \param name Name of the uniform variable in GLSL
+    /// \param x    Value of the float scalar
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, float x);
+    void setUniformFloat(const std::string& name, float x);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Change a 2-components vector parameter of the shader
+    /// \brief Specify value for vec2 uniform
     ///
-    /// \a name is the name of the variable to change in the shader.
-    /// The corresponding parameter in the shader must be a 2x1 vector
-    /// (vec2 GLSL type).
-    ///
-    /// Example:
-    /// \code
-    /// uniform vec2 myparam; // this is the variable in the shader
-    /// \endcode
-    /// \code
-    /// shader.setParameter("myparam", 5.2f, 6.0f);
-    /// \endcode
-    ///
-    /// \param name Name of the parameter in the shader
-    /// \param x    First component of the value to assign
-    /// \param y    Second component of the value to assign
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param vector Value of the vec2 vector
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, float x, float y);
+    void setUniformVec2(const std::string& name, const Glsl::Vec2& vector);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Change a 3-components vector parameter of the shader
+    /// \brief Specify value for vec3 uniform
     ///
-    /// \a name is the name of the variable to change in the shader.
-    /// The corresponding parameter in the shader must be a 3x1 vector
-    /// (vec3 GLSL type).
-    ///
-    /// Example:
-    /// \code
-    /// uniform vec3 myparam; // this is the variable in the shader
-    /// \endcode
-    /// \code
-    /// shader.setParameter("myparam", 5.2f, 6.0f, -8.1f);
-    /// \endcode
-    ///
-    /// \param name Name of the parameter in the shader
-    /// \param x    First component of the value to assign
-    /// \param y    Second component of the value to assign
-    /// \param z    Third component of the value to assign
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param vector Value of the vec3 vector
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, float x, float y, float z);
+    void setUniformVec3(const std::string& name, const Glsl::Vec3& vector);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Change a 4-components vector parameter of the shader
+    /// \brief Specify value for vec4 uniform
     ///
-    /// \a name is the name of the variable to change in the shader.
-    /// The corresponding parameter in the shader must be a 4x1 vector
-    /// (vec4 GLSL type).
-    ///
-    /// Example:
-    /// \code
-    /// uniform vec4 myparam; // this is the variable in the shader
-    /// \endcode
-    /// \code
-    /// shader.setParameter("myparam", 5.2f, 6.0f, -8.1f, 0.4f);
-    /// \endcode
-    ///
-    /// \param name Name of the parameter in the shader
-    /// \param x    First component of the value to assign
-    /// \param y    Second component of the value to assign
-    /// \param z    Third component of the value to assign
-    /// \param w    Fourth component of the value to assign
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param vector Value of the vec4 vector
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, float x, float y, float z, float w);
+    void setUniformVec4(const std::string& name, const Glsl::Vec4& vector);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Change a 2-components vector parameter of the shader
-    ///
-    /// \a name is the name of the variable to change in the shader.
-    /// The corresponding parameter in the shader must be a 2x1 vector
-    /// (vec2 GLSL type).
-    ///
-    /// Example:
-    /// \code
-    /// uniform vec2 myparam; // this is the variable in the shader
-    /// \endcode
-    /// \code
-    /// shader.setParameter("myparam", sf::Vector2f(5.2f, 6.0f));
-    /// \endcode
-    ///
-    /// \param name   Name of the parameter in the shader
-    /// \param vector Vector to assign
-    ///
-    ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Vector2f& vector);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Change a 3-components vector parameter of the shader
-    ///
-    /// \a name is the name of the variable to change in the shader.
-    /// The corresponding parameter in the shader must be a 3x1 vector
-    /// (vec3 GLSL type).
-    ///
-    /// Example:
-    /// \code
-    /// uniform vec3 myparam; // this is the variable in the shader
-    /// \endcode
-    /// \code
-    /// shader.setParameter("myparam", sf::Vector3f(5.2f, 6.0f, -8.1f));
-    /// \endcode
-    ///
-    /// \param name   Name of the parameter in the shader
-    /// \param vector Vector to assign
-    ///
-    ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Vector3f& vector);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Change a color parameter of the shader
-    ///
-    /// \a name is the name of the variable to change in the shader.
-    /// The corresponding parameter in the shader must be a 4x1 vector
-    /// (vec4 GLSL type).
+    /// \brief Specify value for vec4 uniform as SFML color
     ///
     /// It is important to note that the components of the color are
     /// normalized before being passed to the shader. Therefore,
     /// they are converted from range [0 .. 255] to range [0 .. 1].
-    /// For example, a sf::Color(255, 125, 0, 255) will be transformed
+    /// For example, a sf::Color(255, 127, 0, 255) will be transformed
     /// to a vec4(1.0, 0.5, 0.0, 1.0) in the shader.
     ///
     /// Example:
@@ -369,21 +270,128 @@ public:
     /// uniform vec4 color; // this is the variable in the shader
     /// \endcode
     /// \code
-    /// shader.setParameter("color", sf::Color(255, 128, 0, 255));
+    /// shader.setUniformVec4("color", sf::Color(255, 128, 0, 255));
     /// \endcode
     ///
-    /// \param name  Name of the parameter in the shader
+    /// \param name  Name of the uniform variable in GLSL
     /// \param color Color to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Color& color);
+    void setUniformVec4(const std::string& name, const Color& color);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Change a matrix parameter of the shader
+    /// \brief Specify value for int uniform
     ///
-    /// \a name is the name of the variable to change in the shader.
-    /// The corresponding parameter in the shader must be a 4x4 matrix
-    /// (mat4 GLSL type).
+    /// \param name Name of the uniform variable in GLSL
+    /// \param x    Value of the int scalar
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformInt(const std::string& name, int x);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for ivec2 uniform
+    ///
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param vector Value of the ivec2 vector
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformIvec2(const std::string& name, const Glsl::Ivec2& vector);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for ivec3 uniform
+    ///
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param vector Value of the ivec3 vector
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformIvec3(const std::string& name, const Glsl::Ivec3& vector);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for ivec4 uniform
+    ///
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param vector Value of the ivec4 vector
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformIvec4(const std::string& name, const Glsl::Ivec4& vector);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for bool uniform
+    ///
+    /// \param name Name of the uniform variable in GLSL
+    /// \param x    Value of the bool scalar
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformBool(const std::string& name, bool x);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for bvec2 uniform
+    ///
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param vector Value of the bvec2 vector
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformBvec2(const std::string& name, const Glsl::Bvec2& vector);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for bvec3 uniform
+    ///
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param vector Value of the bvec3 vector
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformBvec3(const std::string& name, const Glsl::Bvec3& vector);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for bvec4 uniform
+    ///
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param vector Value of the bvec4 vector
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformBvec4(const std::string& name, const Glsl::Bvec4& vector);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for mat3 matrix
+    ///
+    /// \param name    Name of the uniform variable in GLSL
+    /// \param pointer Pointer to the 9 values of the 3x3 matrix
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformMat3(const std::string& name, const float* pointer);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for mat3 matrix
+    ///
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param matrix Value of the mat3 matrix
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformMat3(const std::string& name, const Glsl::Mat3& matrix);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for mat3 matrix
+    ///
+    /// \param name    Name of the uniform variable in GLSL
+    /// \param pointer Pointer to the 16 values of the 4x4 matrix
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformMat4(const std::string& name, const float* pointer);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for mat4 matrix
+    ///
+    /// \param name   Name of the uniform variable in GLSL
+    /// \param matrix Value of the mat4 matrix
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformMat4(const std::string& name, const Glsl::Mat4& matrix);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify value for mat4 uniform as SFML transform
+    ///
+    /// \a name is the name of the uniform variable to change in the
+    /// shader. The corresponding GLSL type is a 4x4 matrix (mat4).
     ///
     /// Example:
     /// \code
@@ -392,14 +400,74 @@ public:
     /// \code
     /// sf::Transform transform;
     /// transform.translate(5, 10);
-    /// shader.setParameter("matrix", transform);
+    /// shader.setUniformMat4("matrix", transform);
     /// \endcode
     ///
-    /// \param name      Name of the parameter in the shader
+    /// \param name      Name of the uniform in the shader
     /// \param transform Transform to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Transform& transform);
+    void setUniformMat4(const std::string& name, const Transform& transform);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify values for float[] array uniform
+    ///
+    /// \param name       Name of the uniform variable in GLSL
+    /// \param valueArray Pointer to array of float values
+    /// \param length     Number of elements in the array
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformFloatArray(const std::string& name, const float* valueArray, std::size_t length);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify values for vec2[] array uniform
+    ///
+    /// \param name        Name of the uniform variable in GLSL
+    /// \param vectorArray Pointer to array of vec2 values
+    /// \param length      Number of elements in the array
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformVec2Array(const std::string& name, const Glsl::Vec2* vectorArray, std::size_t length);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify values for vec3[] array uniform
+    ///
+    /// \param name        Name of the uniform variable in GLSL
+    /// \param vectorArray Pointer to array of vec3 values
+    /// \param length      Number of elements in the array
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformVec3Array(const std::string& name, const Glsl::Vec3* vectorArray, std::size_t length);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify values for vec4[] array uniform
+    ///
+    /// \param name        Name of the uniform variable in GLSL
+    /// \param vectorArray Pointer to array of vec4 values
+    /// \param length      Number of elements in the array
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformVec4Array(const std::string& name, const Glsl::Vec4* vectorArray, std::size_t length);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify values for mat3[] array uniform
+    ///
+    /// \param name        Name of the uniform variable in GLSL
+    /// \param matrixArray Pointer to array of mat3 values
+    /// \param length      Number of elements in the array
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformMat3Array(const std::string& name, const Glsl::Mat3* matrixArray, std::size_t length);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Specify values for mat4[] array uniform
+    ///
+    /// \param name        Name of the uniform variable in GLSL
+    /// \param matrixArray Pointer to array of mat4 values
+    /// \param length      Number of elements in the array
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformMat4Array(const std::string& name, const Glsl::Mat4* matrixArray, std::size_t length);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a texture parameter of the shader
@@ -415,7 +483,7 @@ public:
     /// \code
     /// sf::Texture texture;
     /// ...
-    /// shader.setParameter("the_texture", texture);
+    /// shader.setUniformSampler2D("the_texture", texture);
     /// \endcode
     /// It is important to note that \a texture must remain alive as long
     /// as the shader uses it, no copy is made internally.
@@ -424,14 +492,14 @@ public:
     /// known in advance, you can pass the special value
     /// sf::Shader::CurrentTexture:
     /// \code
-    /// shader.setParameter("the_texture", sf::Shader::CurrentTexture).
+    /// shader.setUniformSampler2D("the_texture", sf::Shader::CurrentTexture).
     /// \endcode
     ///
     /// \param name    Name of the texture in the shader
     /// \param texture Texture to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Texture& texture);
+    void setUniformSampler2D(const std::string& name, const Texture& texture);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a texture parameter of the shader
@@ -448,10 +516,90 @@ public:
     /// uniform sampler2D current; // this is the variable in the shader
     /// \endcode
     /// \code
-    /// shader.setParameter("current", sf::Shader::CurrentTexture);
+    /// shader.setUniformSampler2D("current", sf::Shader::CurrentTexture);
     /// \endcode
     ///
     /// \param name Name of the texture in the shader
+    ///
+    ////////////////////////////////////////////////////////////
+    void setUniformSampler2D(const std::string& name, CurrentTextureType);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a float parameter of the shader
+    ///
+    /// \deprecated Use setUniformFloat() instead.
+    ///
+    ////////////////////////////////////////////////////////////
+    void setParameter(const std::string& name, float x);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a 2-components vector parameter of the shader
+    ///
+    /// \deprecated Use setUniformVec2() instead.
+    ///
+    ////////////////////////////////////////////////////////////
+    void setParameter(const std::string& name, float x, float y);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a 3-components vector parameter of the shader
+    ///
+    /// \deprecated Use setUniformVec3() instead.
+    ///
+    ////////////////////////////////////////////////////////////
+    void setParameter(const std::string& name, float x, float y, float z);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a 4-components vector parameter of the shader
+    ///
+    /// \deprecated Use setUniformVec4() instead.
+    ///
+    ////////////////////////////////////////////////////////////
+    void setParameter(const std::string& name, float x, float y, float z, float w);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a 2-components vector parameter of the shader
+    ///
+    /// \deprecated Use setUniformVec2() instead.
+    ///
+    ////////////////////////////////////////////////////////////
+    void setParameter(const std::string& name, const Vector2f& vector);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a 3-components vector parameter of the shader
+    ///
+    /// \deprecated Use setUniformVec3() instead.
+    ///
+    ////////////////////////////////////////////////////////////
+    void setParameter(const std::string& name, const Vector3f& vector);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a color parameter of the shader
+    ///
+    /// \deprecated Use setUniformVec4() instead.
+    ///
+    ////////////////////////////////////////////////////////////
+    void setParameter(const std::string& name, const Color& color);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a matrix parameter of the shader
+    ///
+    /// \deprecated Use setUniformMat4() instead.
+    ///
+    ////////////////////////////////////////////////////////////
+    void setParameter(const std::string& name, const Transform& transform);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a texture parameter of the shader
+    ///
+    /// \deprecated Use setUniformSampler2D() instead.
+    ///
+    ////////////////////////////////////////////////////////////
+    void setParameter(const std::string& name, const Texture& texture);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Change a texture parameter of the shader
+    ///
+    /// \deprecated Use setUniformSampler2D() instead.
     ///
     ////////////////////////////////////////////////////////////
     void setParameter(const std::string& name, CurrentTextureType);
@@ -529,23 +677,30 @@ private:
     void bindTextures() const;
 
     ////////////////////////////////////////////////////////////
-    /// \brief Get the location ID of a shader parameter
+    /// \brief Get the location ID of a shader uniform
     ///
-    /// \param name Name of the parameter to search
+    /// \param name Name of the uniform variable to search
     ///
-    /// \return Location ID of the parameter, or -1 if not found
+    /// \return Location ID of the uniform, or -1 if not found
     ///
     ////////////////////////////////////////////////////////////
-    int getParamLocation(const std::string& name);
+    int getUniformLocation(const std::string& name);
 
+    ////////////////////////////////////////////////////////////
+    /// \brief Sets uniforms using a function object (code reuse)
+    ///
+    /// \param name Name of the uniform variable
+    /// \param functor Function object setting the uniform
+    ///
+    ////////////////////////////////////////////////////////////
     template <typename F>
-    void setParameterImpl(const std::string& name, F functor);
+    void setUniformImpl(const std::string& name, const F& functor);
 
     ////////////////////////////////////////////////////////////
     // Types
     ////////////////////////////////////////////////////////////
     typedef std::map<int, const Texture*> TextureTable;
-    typedef std::map<std::string, int> ParamTable;
+    typedef std::map<std::string, int> UniformTable;
 
     ////////////////////////////////////////////////////////////
     // Member data
@@ -553,7 +708,7 @@ private:
     unsigned int m_shaderProgram;  ///< OpenGL identifier for the program
     int          m_currentTexture; ///< Location of the current texture in the shader
     TextureTable m_textures;       ///< Texture variables in the shader, mapped to their location
-    ParamTable   m_params;         ///< Parameters location cache
+    UniformTable m_uniforms;       ///< Parameters location cache
 };
 
 } // namespace sf
@@ -583,25 +738,31 @@ private:
 /// need to learn its basics before writing your own shaders
 /// for SFML.
 ///
-/// Like any C/C++ program, a shader has its own variables
-/// that you can set from your C++ application. sf::Shader
-/// handles 5 different types of variables:
-/// \li floats
+/// Like any C/C++ program, a GLSL shader has its own variables
+/// called uniforms that you can set from your C++ application.
+/// sf::Shader handles different types of uniforms:
+/// \li scalars: float, int, bool
 /// \li vectors (2, 3 or 4 components)
-/// \li colors
-/// \li textures
-/// \li transforms (matrices)
+/// \li matrices (3x3 or 4x4)
+/// \li samplers (textures)
+///
+/// Some SFML-specific types are also accepted:
+/// \li sf::Color as a 4D vector (vec4)
+/// \li sf::Transform as matrices (mat4)
 ///
 /// The value of the variables can be changed at any time
-/// with the various overloads of the setParameter function:
+/// with the various setUniform*() functions:
 /// \code
-/// shader.setParameter("offset", 2.f);
-/// shader.setParameter("point", 0.5f, 0.8f, 0.3f);
-/// shader.setParameter("color", sf::Color(128, 50, 255));
-/// shader.setParameter("matrix", transform); // transform is a sf::Transform
-/// shader.setParameter("overlay", texture); // texture is a sf::Texture
-/// shader.setParameter("texture", sf::Shader::CurrentTexture);
+/// shader.setUniformFloat("offset", 2.f);
+/// shader.setUniformVec3("point", 0.5f, 0.8f, 0.3f);
+/// shader.setUniformVec4("color", sf::Color(128, 50, 255));
+/// shader.setUniformMat4("matrix", transform); // transform is a sf::Transform
+/// shader.setUniformSampler2D("overlay", texture); // texture is a sf::Texture
+/// shader.setUniformSampler2D("texture", sf::Shader::CurrentTexture);
 /// \endcode
+///
+/// The old setParameter() overloads are deprecated and will be removed in a
+/// future version. You should use their setUniform*() equivalents instead.
 ///
 /// The special Shader::CurrentTexture argument maps the
 /// given texture variable to the current texture of the

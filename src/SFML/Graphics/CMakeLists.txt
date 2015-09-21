@@ -11,6 +11,7 @@ set(SRC
     ${INCROOT}/Export.hpp
     ${SRCROOT}/Font.cpp
     ${INCROOT}/Font.hpp
+    ${INCROOT}/Glsl.hpp
     ${INCROOT}/Glyph.hpp
     ${SRCROOT}/GLCheck.cpp
     ${SRCROOT}/GLCheck.hpp
