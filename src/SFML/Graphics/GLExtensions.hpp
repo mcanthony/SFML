@@ -209,6 +209,7 @@
     #define GLEXT_glCheckFramebufferStatus            glCheckFramebufferStatusEXT
     #define GLEXT_glFramebufferTexture2D              glFramebufferTexture2DEXT
     #define GLEXT_glFramebufferRenderbuffer           glFramebufferRenderbufferEXT
+    #define GLEXT_glGenerateMipmap                    glGenerateMipmapEXT
     #define GLEXT_GL_FRAMEBUFFER                      GL_FRAMEBUFFER_EXT
     #define GLEXT_GL_RENDERBUFFER                     GL_RENDERBUFFER_EXT
     #define GLEXT_GL_COLOR_ATTACHMENT0                GL_COLOR_ATTACHMENT0_EXT
