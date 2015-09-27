@@ -61,7 +61,20 @@ Http::Request::Request(const std::string& uri, Method method, const std::string&
 ////////////////////////////////////////////////////////////
 void Http::Request::setField(const std::string& field, const std::string& value)
 {
-    m_fields[toLower(field)] = value;
+    m_fields.erase(toLower(field));
+    m_fields.insert(std::make_pair(toLower(field), value));
+}
+
+
+////////////////////////////////////////////////////////////
+void Http::Request::setFieldValues(const std::string& field, const std::vector<std::string>& values)
+{
+    m_fields.erase(toLower(field));
+
+    for (std::vector<std::string>::const_iterator i = values.begin(); i != values.end(); ++i)
+    {
+        m_fields.insert(std::make_pair(toLower(field), *i));
+    }
 }
 
 
@@ -164,6 +177,22 @@ const std::string& Http::Response::getField(const std::string& field) const
         static const std::string empty = "";
         return empty;
     }
+}
+
+
+////////////////////////////////////////////////////////////
+std::vector<std::string> Http::Response::getFieldValues(const std::string& field) const
+{
+    std::vector<std::string> values;
+
+    std::pair<FieldTable::const_iterator, FieldTable::const_iterator> range = m_fields.equal_range(toLower(field));
+
+    for (FieldTable::const_iterator i = range.first; i != range.second; ++i)
+    {
+        values.push_back(i->second);
+    }
+
+    return values;
 }
 
 
@@ -275,6 +304,8 @@ void Http::Response::parse(const std::string& data)
 ////////////////////////////////////////////////////////////
 void Http::Response::parseFields(std::istream &in)
 {
+    m_fields.clear();
+
     std::string line;
     while (std::getline(in, line) && (line.size() > 2))
     {
@@ -290,7 +321,7 @@ void Http::Response::parseFields(std::istream &in)
                 value.erase(value.size() - 1);
 
             // Add the field
-            m_fields[toLower(field)] = value;
+            m_fields.insert(std::make_pair(toLower(field), value));
         }
     }
 }
